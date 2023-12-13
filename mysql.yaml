@@ -5,26 +5,26 @@ metadata:
 spec: 
   replicas: 1
   selector:
-    matchlabs:
+    matchLabels:
       app: mysql
-  templete:
-   metadata:
-     labels:
-      app: mysql
-  spec:
-   containers:
-  - name: mysql
-    image: mysql:8.0.23
-    env:
-    - name: MYSQL_USER
-      valueFrom:
-        secretKeyRef:
-          name: mysql-credentials
-          key: mysql-username
-    - name: MYSQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-           name: mysql-credentials
-           key: mysql-password
-    ports:
-      -containerPort: 3306
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0.23
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: mysql-username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: mysql-password
+        ports:
+          - containerPort: 3306
