@@ -26,7 +26,8 @@ pipeline {
         stage('Push to GCR') {
             steps {
                 script {
-                    withCredentials([[$class: 'GoogleRobotCredentials', credentialsId: 'vairav1112']]) {
+                    withCredentials([file(credentialsId: "${vairav1112}", variable: 'GCR_KEY')]) {
+                        sh "gcloud auth activate-service-account --key-file=$GCR_KEY"
                         sh "gcloud auth configure-docker"
                         sh "docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG}"
                     }
