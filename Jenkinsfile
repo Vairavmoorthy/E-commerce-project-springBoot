@@ -28,7 +28,7 @@ pipeline {
         
         stage('Push to GCR') {
             steps {
-                withDockerRegistry([credentialsId: 'gcr:${PROJECT}', url: 'https://gcr.io']) {
+                withCredentials([file(credentialsId: "${PROJECT}_artifacts", variable: '$GCR_KEY')]) {
                     sh "docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG}"
                 }
             }
