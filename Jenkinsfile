@@ -11,7 +11,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-               sh 'cd JtProject && mvn clean package'
+                sh 'cd JtProject && mvn clean package'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t vmapp:1.0 .'
             }
         }
     }
