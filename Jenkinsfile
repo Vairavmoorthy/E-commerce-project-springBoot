@@ -28,7 +28,7 @@ pipeline {
         
         stage('Push to GCR') {
             steps {
-                withcredentials([credentialsId: 'vairav1112', url: 'https://gcr.io']) {
+                withCredentials([usernamePassword(credentialsId: "vairav1112")]) {
                     // Tag the image for GCR
                     sh "docker tag gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG} gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG}"
 
