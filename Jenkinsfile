@@ -28,12 +28,15 @@ pipeline {
         
         stage('Push to GCR') {
             steps {
-                script {
-                    // Authenticate with gcloud using service account key
-                    withCredentials([file(credentialsId: 'vairav1112', variable: 'GCR_KEY')]) {
-                        sh "gcloud auth activate-service-account --key-file=$GCR_KEY"
-                        sh "gcloud auth configure-docker"
-                        sh "docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG}"
+                withDockerRegistry([
+                        credentialsId: "vairav1112",
+                        url: "https://gcr.io"
+                    ]) {
+                        // Tag the image for GCR
+                        sh "docker tag ${imageTag} gcr.io/${PROJECT_ID}/${imageName}:${imageTag}"
+
+                        // Push the image to GCR
+                        sh "docker push gcr.io/${PROJECT_ID}/${imageName}:${imageTag}"
                     }
                 }
             }
